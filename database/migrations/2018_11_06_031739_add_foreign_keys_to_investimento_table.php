@@ -14,7 +14,7 @@ class AddForeignKeysToInvestimentoTable extends Migration {
 	{
 		Schema::table('investimento', function(Blueprint $table)
 		{
-			$table->foreign('id_investidor', 'FK_Investidor')->references('id')->on('investidor')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			$table->foreign('investidor_id', 'FK_Investidor')->references('id')->on('investidor')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 

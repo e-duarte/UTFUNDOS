@@ -15,13 +15,14 @@ class CreateInvestimentoTable extends Migration {
 		Schema::create('investimento', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('id_investidor')->nullable()->index('FK_Investidor');
+			$table->integer('investidor_id')->nullable()->index('FK_Investidor');
 			$table->decimal('valor_investido', 10, 0);
 			$table->date('prazo');
 			$table->date('data_deposito');
 			$table->date('data_saque');
 			$table->decimal('taxa_mes', 10, 0);
 			$table->decimal('taxa_adm', 10, 0);
+			$table->timestamps();
 		});
 	}
 

@@ -19,6 +19,7 @@ class CreateInvestidorTable extends Migration {
 			$table->string('senha', 20);
 			$table->string('email', 30);
 			$table->string('login', 50);
+			$table->timestamps();
 		});
 	}
 
