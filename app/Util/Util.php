@@ -7,11 +7,11 @@
 
         //Retorna a diferença em mês entres duas datas
         public static function data_diff_mes($dataInicial, $dataFinal){
+            $dateInicial = date("d/m/Y");
+            $dias = abs((strtotime($dataFinal) - strtotime($dataInicial))/86400); // calcular a quantidade de dias
 
-            $diff = abs(strtotime($dataFinal) - strtotime($dataInicial)/86400);
-
-            $meses = $diff;
-            return $meses;
+            $meses = $dias/30;
+            return floor($meses);
         }
 
     }

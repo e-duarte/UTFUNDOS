@@ -17,7 +17,8 @@ class CreateInvestimentoTable extends Migration {
 			$table->integer('id', true);
 			$table->integer('investidor_id')->nullable()->index('FK_Investidor');
 			$table->decimal('valor_investido', 10, 0);
-			$table->date('prazo');
+			$table->integer('periodo');
+			$table->string('tipo_periodo');
 			$table->date('data_deposito');
 			$table->date('data_saque');
 			$table->decimal('taxa_mes', 10, 0);
