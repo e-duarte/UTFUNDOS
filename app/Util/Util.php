@@ -14,6 +14,10 @@
             return floor($meses);
         }
 
+        public static function get_dias_mes($data){
+            return explode("-",$data)[2];
+        }
+
     }
 
 ?>

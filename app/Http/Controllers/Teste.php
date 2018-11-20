@@ -9,7 +9,8 @@ use App\Util\Util;
 class Teste extends Controller
 {
     public function index(){
-        return view("teste");
+        $time = strtotime("01-08-2018");
+        return date("Y-m",$time);
     }
 
     public function verificar(Request $request){
