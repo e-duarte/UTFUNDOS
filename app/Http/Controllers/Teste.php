@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Util\Util;
+use Carbon\Carbon;
 
 class Teste extends Controller
 {
     public function index(){
         $time = strtotime("01-08-2018");
-        return date("Y-m",$time);
+        //return Carbon::now()->addDays(31)->toDateString();
+        return Carbon::now()->diffInDays(Carbon::now()->addDays(31)->toDateString());
     }
 
     public function verificar(Request $request){
@@ -19,4 +21,6 @@ class Teste extends Controller
 
         return Util::data_diff_mes($date1, $date2);
     }
+
+    
 }

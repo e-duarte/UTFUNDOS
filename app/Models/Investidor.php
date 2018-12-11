@@ -8,15 +8,17 @@ class Investidor extends Model
 {
     protected $table = "INVESTIDOR";
 
-    public function investimento()
-    {
+    //Relaciona Investidor com o investimento, uma relação de um para muitos
+    public function investimento(){
         return $this->hasMany('App\Models\Investimento');
     }
 
+    //Aplica um investimento com base no dados do depósito realizado 
     public function addInvestimento(Investimento $investimento){
-        $this->investimento->save($investimento);
+        $this->investimento->save($investimento);  
     }
 
+    //Retorna todoas os investimentos do investidor
     public function showInvestimentos(){
         return Investidor::all();
     }
@@ -26,7 +28,16 @@ class Investidor extends Model
         $investimentos = $this->showInvestimentos();
 
         foreach($investimentos as $investimento){
-            
+            $investimentos += $investimento->valorAtual();
         }
     }
+
+    //remove um investimento pelo seu id
+    public function sacar($ids){
+        for($i = 0; $i < $ids; $i++){
+            $investimento = App\Models\Investimento::find($id[$i]);
+            $investimento->delete();
+        }
+    }
+
 }

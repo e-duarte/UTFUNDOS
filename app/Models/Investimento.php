@@ -5,43 +5,37 @@ use App\Models\Taxa;
 
 use Illuminate\Database\Eloquent\Model;
 use Util\Util;
+use Carbon\Carbon;
 class Investimento extends Model
 {
     protected $table = "INVESTIMENTO";
-    public static $DIA = "dia";
-    public static $MES = "mes";
-    public static $ANO = "ano";
-    
-    public function post(){
-        return $this->belongsTo('App\Post');
-    }
 
-    //Retorna o redimento atual do Investimento
-    public function valorAtual(){
-        if($this->tipo_periodo == $DIA){
-            $timestampDeposito = strtorime($this->data_deposito);
-            if(date("Y-m", $timestampDeposito) == date("Y-m") && Util::get_dias_mes($this->data_deposito) == $this->periodo){
-                return $this->valor + rendimentoDias($this->periodo);
-            }else{
-                return $this->valor;
+    //Retorna o rendimento atual do investimento
+    public function rendimento(){
+        $dataAtual = Carbon::now();
+        $rendimento = 0;
+
+        if($dataAtual->toDateString() >= $this->data_saque_estimado){
+            $diffMounths = $dataAtual->diffInDays($this->data_saque_estimado)/30;
+
+            if($diffMounths < 1){
+                $rendimento = aplicarTaxaDia($diffMounths);
+            }else if ($diffMounths >= 1 && $diffMounths <= 11){
+                $rendimento = aplicarTaxaMes($diffMounths);
+            }else if($diffMounths >= 12){
+                $rendimento = aplicarTaxaAno($diffMounths*12);
             }
-
-        }else if($this->tipo_periodo == $MES){
-
-        }else if($this->tipo_periodo == $ANO){
-
         }
+
+        return $rendimento;
     }
 
-    private function rendimentoDias($periodo){
-        return ($periodo/30)*Taxa::lastTaxa()->taxa_mes;
+    private function aplicarTaxa($periodo){
+        $taxa = $this->taxaMes()/100;
+        return $periodo*$taxa*$this->valorInvetido;
     }
 
-    private function rendimentoMes(){
-        return $periodo*Taxa::lastTaxa()->taxa_mes;
-    }    
-    
-    private function rendimentoAnos(){
-        return ($periodo*12)*Taxa::lastTaxa()->taxa_mes;
+    public function valorAtual(){
+        return $this->valor_investido + $this->rendimento();
     }
 }
